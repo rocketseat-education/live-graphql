@@ -6,10 +6,6 @@ const SAVE_COMMENT = gql`
   mutation save($input: CommentInput) {
     saveComment(input: $input) {
       id
-      name
-      content
-      createdAt
-      updatedAt
     }
   }
 `;
