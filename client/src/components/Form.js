@@ -1,11 +1,42 @@
 import React, { useState } from "react";
+import { gql } from "apollo-boost";
+import { useMutation } from "@apollo/react-hooks";
 
-export default function Form() {
+const SAVE_COMMENT = gql`
+  mutation save($input: CommentInput) {
+    saveComment(input: $input) {
+      id
+      name
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export default function Form({ onAddComment }) {
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
+
+  const [addComment] = useMutation(SAVE_COMMENT, {
+    variables: {
+      input: {
+        name,
+        content
+      }
+    }
+  });
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    await addComment();
+    setName("");
+    setContent("");
+    onAddComment();
+  }
 
   return (
-    <form onSubmit={e => e.preventDefault()}>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Digite o seu nome"
@@ -15,8 +46,8 @@ export default function Form() {
       <input
         type="text"
         placeholder="Digite o seu comentário"
-        value={description}
-        onChange={e => setDescription(e.target.value)}
+        value={content}
+        onChange={e => setContent(e.target.value)}
       />
       <button type="submit">Comentar</button>
     </form>

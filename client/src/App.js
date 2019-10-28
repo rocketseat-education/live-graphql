@@ -17,14 +17,18 @@ const GET_COMMENTS = gql`
 `;
 
 export default function App() {
-  const { loading, error, data } = useQuery(GET_COMMENTS);
+  const { loading, error, data, refetch } = useQuery(GET_COMMENTS);
 
   if (error) return "Pô, deu ruim demais.";
+
+  function handleAddComment() {
+    refetch();
+  }
 
   return (
     <>
       <h1>RocketComments</h1>
-      <Form />
+      <Form onAddComment={handleAddComment} />
       {loading ? (
         "Carregando..."
       ) : (
