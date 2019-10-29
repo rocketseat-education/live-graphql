@@ -2,44 +2,52 @@ import React, { useState } from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 
-const ADD_COMMENT = gql`
-    mutation SaveComment($name: String, $content: String) {
-        saveComment(input: { name: $name, content: $content }) {
-            id
-            name
-            content
-        }
+const SAVE_COMMENT = gql`
+  mutation save($input: CommentInput) {
+    saveComment(input: $input) {
+      id
     }
+  }
 `;
 
-export default function Form({ refresh }) {
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [addComment] = useMutation(ADD_COMMENT);
+export default function Form({ onAddComment }) {
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
 
-    function handleSubmit(e) {
-        addComment({ variables: { name, content: description } });
-        refresh();
-        e.preventDefault();
-    }
+  const [addComment] = useMutation(SAVE_COMMENT, {
+    variables: {
+      input: {
+        name,
+        content,
+      },
+    },
+  });
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Digite o seu nome"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                required
-            />
-            <input
-                type="text"
-                placeholder="Digite o seu comentário"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                required
-            />
-            <button type="submit">Comentar</button>
-        </form>
-    );
+  async function handleSubmit(e) {
+    e.preventDefault();
+    await addComment();
+    setName("");
+    setContent("");
+    onAddComment();
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Digite o seu nome"
+        value={name}
+        onChange={e => setName(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Digite o seu comentário"
+        value={content}
+        onChange={e => setContent(e.target.value)}
+        required
+      />
+      <button type="submit">Comentar</button>
+    </form>
+  );
 }

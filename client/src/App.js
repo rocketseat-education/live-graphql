@@ -7,53 +7,56 @@ import Comment from "./components/Comment";
 import Form from "./components/Form";
 
 const GET_COMMENTS = gql`
-    query {
-        comments {
-            id
-            name
-            content
-        }
+  query {
+    comments {
+      id
+      name
+      content
     }
+  }
 `;
 
 const DELETE_COMMENTS = gql`
-    mutation DeleteComment($id: String!) {
-        deleteComments(id: $id) {
-            id
-        }
+  mutation DeleteComment($id: String!) {
+    deleteComments(id: $id) {
+      id
     }
+  }
 `;
 
 export default function App() {
-    const { loading, error, data, refetch } = useQuery(GET_COMMENTS);
-    const [deleteComment] = useMutation(DELETE_COMMENTS);
+  const { loading, error, data, refetch } = useQuery(GET_COMMENTS);
+  const [deleteComment] = useMutation(DELETE_COMMENTS);
 
-    if (error) return "Pô, deu ruim demais.";
+  if (error) return "Pô, deu ruim demais.";
 
-    function handleDelete(id) {
-        deleteComment({ variables: { id } });
-        refetch();
-    }
+  function handleAddComment() {
+    refetch();
+  }
 
-    return (
-        <>
-            <h1>RocketComments</h1>
-            <Form refresh={refetch} />
-            {loading ? (
-                "Carregando..."
-            ) : (
-                <section className="comments">
-                    {data.comments.map(({ id, name, content }) => (
-                        <Comment
-                            key={id}
-                            id={id}
-                            name={name}
-                            description={content}
-                            onClick={handleDelete}
-                        />
-                    ))}
-                </section>
-            )}
-        </>
-    );
+  function handleDelete(id) {
+    deleteComment({ variables: { id } });
+    refetch();
+  }
+  return (
+    <>
+      <h1>RocketComments</h1>
+      <Form onAddComment={handleAddComment} />
+      {loading ? (
+        "Carregando..."
+      ) : (
+        <section className="comments">
+          {data.comments.map(({ id, name, content }) => (
+            <Comment
+              key={id}
+              id={id}
+              name={name}
+              description={content}
+              onClick={handleDelete}
+            />
+          ))}
+        </section>
+      )}
+    </>
+  );
 }
