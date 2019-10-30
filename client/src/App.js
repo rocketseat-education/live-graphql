@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import "./App.css";
 
@@ -16,8 +16,17 @@ const GET_COMMENTS = gql`
   }
 `;
 
+const DELETE_COMMENTS = gql`
+  mutation DeleteComment($id: String!) {
+    deleteComments(id: $id) {
+      id
+    }
+  }
+`;
+
 export default function App() {
   const { loading, error, data, refetch } = useQuery(GET_COMMENTS);
+  const [deleteComment] = useMutation(DELETE_COMMENTS);
 
   if (error) return "Pô, deu ruim demais.";
 
@@ -25,6 +34,10 @@ export default function App() {
     refetch();
   }
 
+  function handleDelete(id) {
+    deleteComment({ variables: { id } });
+    refetch();
+  }
   return (
     <>
       <h1>RocketComments</h1>
@@ -34,7 +47,13 @@ export default function App() {
       ) : (
         <section className="comments">
           {data.comments.map(({ id, name, content }) => (
-            <Comment key={id} name={name} description={content} />
+            <Comment
+              key={id}
+              id={id}
+              name={name}
+              description={content}
+              onClick={handleDelete}
+            />
           ))}
         </section>
       )}

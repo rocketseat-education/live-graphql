@@ -59,11 +59,24 @@ button {
 }
 
 .comment {
+  display: flex;
   margin-bottom: 20px;
   background: #ecf0f1;
   color: #000;
   border-radius: 5px;
   padding: 12px;
+  flex-direction: row;
+}
+
+.comment-content {
+  width: 100%;
+}
+
+.comment-action {
+  display: flex;
+  justify-content: flex-start;
+  align-self: flex-end;
+  align-content: flex-end;
 }
 
 .comment .comment-name {

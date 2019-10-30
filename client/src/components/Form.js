@@ -18,9 +18,9 @@ export default function Form({ onAddComment }) {
     variables: {
       input: {
         name,
-        content
-      }
-    }
+        content,
+      },
+    },
   });
 
   async function handleSubmit(e) {
@@ -38,12 +38,14 @@ export default function Form({ onAddComment }) {
         placeholder="Digite o seu nome"
         value={name}
         onChange={e => setName(e.target.value)}
+        required
       />
       <input
         type="text"
         placeholder="Digite o seu comentário"
         value={content}
         onChange={e => setContent(e.target.value)}
+        required
       />
       <button type="submit">Comentar</button>
     </form>

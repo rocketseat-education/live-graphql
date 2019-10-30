@@ -1,11 +1,16 @@
-import Comment from "./CommentModel";
+import Comment from "./CommentModel"
 
 export async function saveComment(_, { input }) {
-  const comment = await Comment.create(input);
-  return comment;
+  const comment = await Comment.create(input)
+  return comment
 }
 
 export async function getComments() {
-  const comments = await Comment.find();
-  return comments;
+  const comments = await Comment.find().sort({ createdAt: -1 })
+  return comments
+}
+
+export async function deleteComments(_, { id }) {
+  const del = await Comment.findByIdAndDelete(id)
+  return del
 }
