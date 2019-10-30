@@ -39,9 +39,9 @@
 
 ## 🔥 Desafio
 
-Fazer o formulário do comentário enviar a requisição (mutation) e salvar no banco de dados.
+Fazer o formulário do comentário enviar a requisição (mutation) e salvar no banco de dados. Além disso, deve atualizar a lista de comentários assim que for enviado!
 
-_ps: deve atualizar a lista de comentários assim que for enviado!_
+_ps: Muito obrigado ao [@tuliocll](https://github.com/tuliocll), [@felipebergamin](https://github.com/felipebergamin) e [@angelomedeiros](https://github.com/angelomedeiros) pelas suas contribuições, e parabéns, por terem feito o desafio 🚀._
 
 Links que podem ajudar:
 
