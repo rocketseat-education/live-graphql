@@ -7,7 +7,7 @@
     "dev": "nodemon src/server.js"
   },
   "dependencies": {
-    "apollo-server": "^2.9.7",
+    "apollo-server": "^2.14.2",
     "dotenv": "^8.2.0",
     "graphql": "^14.5.8",
     "graphql-iso-date": "^3.6.1",
